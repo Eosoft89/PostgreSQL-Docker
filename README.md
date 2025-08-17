@@ -1,6 +1,6 @@
-# MainSite Database Setup
+# PostgreSQL Database Setup
 
-Configuración de PostgreSQL con pgAdmin para el proyecto MainSite usando Docker.
+Configuración de PostgreSQL con pgAdmin para proyectos usando Docker.
 
 ## 🚀 Configuración inicial en el servidor
 
@@ -30,6 +30,9 @@ mkdir -p volumes/pgadmin_data
 sudo chown -R 999:999 volumes/postgres_data
 sudo chown -R 5050:5050 volumes/pgadmin_data
 sudo chmod -R 755 volumes/
+
+# Dar permisos de ejecución al script de inicialización
+chmod +x postgres-init/01-init-mainsite.sh
 ```
 
 ### 4. Iniciar servicios
@@ -49,9 +52,9 @@ docker-compose logs -f
 ## 🔑 Acceso a los servicios
 
 - **PostgreSQL**: `localhost:5432`
-  - Base de datos: `MainSiteDB`
-  - Usuario admin: `postgres`
-  - Usuario aplicación: `mainsite_user`
+  - Base de datos: `DatabaseName`
+  - Usuario admin: `Username`
+  - Usuario aplicación: `AppUserName`
 
 - **pgAdmin**: `http://servidor-ip:5050`
   - Email: configurado en `.env`
@@ -60,8 +63,8 @@ docker-compose logs -f
 ## 🔌 Connection String para .NET
 
 ```csharp
-// Para uso en aplicación .NET
-"Host=localhost;Database=MainSiteDB;Username=mainsite_user;Password=tu_password_app"
+// Para uso en aplicación .NET (usar las variables de .env)
+"Host=localhost;Database=DatabaseName;Username=UserName;Password=UserPassword"
 ```
 
 ## 📋 Comandos útiles
@@ -77,13 +80,13 @@ docker-compose restart
 docker-compose logs postgres
 
 # Backup de base de datos
-docker exec postgres_main pg_dump -U postgres MainSiteDB > backups/backup_$(date +%Y%m%d).sql
+docker exec postgres_main pg_dump -U eosoft_mainsite MainSiteDB > backups/backup_$(date +%Y%m%d).sql
 
 # Restaurar backup
-docker exec -i postgres_main psql -U postgres MainSiteDB < backups/backup_20240101.sql
+docker exec -i postgres_main psql -U eosoft_mainsite MainSiteDB < backups/backup_20240101.sql
 
 # Conectar directamente a PostgreSQL
-docker exec -it postgres_main psql -U postgres -d MainSiteDB
+docker exec -it postgres_main psql -U eosoft_mainsite -d MainSiteDB
 ```
 
 ## 📁 Estructura del proyecto
@@ -94,7 +97,7 @@ database/
 ├── .env                   # Variables de entorno (NO en Git)
 ├── .env.example          # Plantilla de variables
 ├── postgres-init/        # Scripts de inicialización
-│   └── 01-init-mainsite.sql
+│   └── 01-init-mainsite.sh
 ├── volumes/              # Datos persistentes (NO en Git)
 │   ├── postgres_data/
 │   └── pgadmin_data/
@@ -103,10 +106,9 @@ database/
 
 ## ⚠️ Notas importantes
 
-1. **Nunca subir `.env` a Git** - contiene passwords
-2. **Los volúmenes no se suben a Git** - son datos locales
-3. **Cambiar todos los passwords por defecto**
-4. **El script de inicialización solo se ejecuta la primera vez**
+1. **Los volúmenes no se suben a Git** - son datos locales
+2. **Cambiar todos los passwords por defecto**
+3. **El script de inicialización solo se ejecuta la primera vez**
 
 ## 🛠️ Troubleshooting
 
