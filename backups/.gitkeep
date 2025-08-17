@@ -1,0 +1,2 @@
+# Este archivo mantiene la carpeta backups/ en Git
+# Los archivos .sql, .dump, etc. están excluidos en .gitignore

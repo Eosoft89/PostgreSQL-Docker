@@ -1,0 +1,26 @@
+# Variables de entorno (contienen passwords)
+.env
+
+# Datos de volúmenes Docker (archivos de base de datos)
+volumes/
+
+# Backups de base de datos (pueden ser muy pesados)
+backups/*.sql
+backups/*.dump
+backups/*.tar
+backups/*.gz
+
+# Logs
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Temporales
+*.tmp
+*.temp
