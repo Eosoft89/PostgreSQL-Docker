@@ -31,7 +31,9 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_SERVER_MODE: 'True'
+      PGADMIN_CONFIG_LOGIN_BANNER: "EOSOFT - Acceso Autorizado"
+      PGADMIN_CONFIG_SESSION_EXPIRATION_TIME: 30
     volumes:
       - ./volumes/pgadmin_data:/var/lib/pgadmin
     ports:
